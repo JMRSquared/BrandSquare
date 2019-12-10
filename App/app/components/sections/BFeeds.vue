@@ -52,6 +52,22 @@ export default {
               message:
                 "Walk your Journey with Bathu Shoes. Born in the Township. Built for your journey. Super Comfortable | Proudly South African Shoes",
               tags: ["shoes", "sneakers", "bathu"]
+            },
+            {
+              img:
+                "https://i0.wp.com/sweetzonesa.co.za/wp-content/uploads/2018/07/download-1-1.png?fit=273%2C185&ssl=1",
+              brand: {
+                name: "Mo Faya",
+                logo: "https://www.mofayaenergy.com/img/icons/cog-icons.png",
+                hasStory: true
+              },
+              date: new Date(),
+              likes: 13,
+              comments: 2,
+              shares: 21,
+              message:
+                "We strive for African excellence by creating a social movement that promotes a culture of passion, education and empowerment.",
+              tags: ["drink", "energy_drink", "dj_sbu"]
             }
           ]
         },

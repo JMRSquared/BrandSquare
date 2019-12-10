@@ -4,7 +4,7 @@
       <Navigator row="0" :defaultRoute="defaultRoute()" />
       <StackLayout row="1">
         <GridLayout
-          v-if="$navigator.route"
+          v-if="$navigator.route && isLoggedIn"
           class="secondary"
           rows="auto"
           columns="*,*,*,*"
@@ -52,6 +52,7 @@
 export default {
   data() {
     return {
+      isLoggedIn: false,
       mainTabs: [
         {
           title: "Home",
@@ -86,7 +87,7 @@ export default {
       }, 1000);
     },
     defaultRoute() {
-      return "/home";
+      return "/login";
     }
   }
 };
