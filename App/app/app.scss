@@ -35,6 +35,34 @@
 .text-accent{
   color: $accent;
 }
+.border-accent-small{
+  padding:4;
+  border-width: 2;
+  border-color:$accent;
+ }
+
+
+.primaryDark{
+  background-color: $primaryDark;
+}
+.text-primaryDark{
+  color: $primaryDark;
+}
+
+.accentDark{
+  background-color: $accentDark;
+}
+.text-accentDark{
+  color: $accentDark;
+}
+
+.text-white{
+  color: white;
+}
+
+.radius-big{
+  border-radius: 30;
+}
 
 .top-radius-medium{
   border-radius: 20;

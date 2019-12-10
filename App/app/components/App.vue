@@ -1,33 +1,50 @@
 <template>
-  <page :actionBarHidden="true">
-    <RadSideDrawer ref="drawer">
-      <StackLayout ~drawerContent backgroundColor="#ffffff">
-        <Label class="drawer-header" text="Drawer" />
-
-        <Label class="drawer-item" text="Item 1" />
-        <Label class="drawer-item" text="Item 2" />
-        <Label class="drawer-item" text="Item 3" />
-      </StackLayout>
-
-      <GridLayout ~mainContent columns="*" rows="*">
-        <GridLayout columns="auto,*" rows="auto,*">
-          <StackLayout>
-            <Ripple
-              v-if="true"
-              @tap="$refs.drawer.nativeView.showDrawer()"
-              class="p-20"
-            >
-              <label
-                :text="'mdi-menu' | fonticon"
-                class="mdi m-10 text-primary"
-                :fontSize="30"
-              ></label>
-            </Ripple>
-          </StackLayout>
-          <Navigator row="1" colSpan="2" :defaultRoute="defaultRoute()" />
+  <page @loaded="pageLoaded" :actionBarHidden="true">
+    <GridLayout columns="*" rows="*,auto">
+      <Navigator row="0" :defaultRoute="defaultRoute()" />
+      <StackLayout row="1">
+        <GridLayout
+          v-if="$navigator.route"
+          class="secondary"
+          rows="auto"
+          columns="*,*,*,*"
+        >
+          <Ripple
+            :col="i"
+            v-for="(tab, i) in mainTabs"
+            @tap="navigate(tab.path)"
+            :key="i"
+          >
+            <StackLayout class="p-10">
+              <Label
+                class="mdi m-x-5 p-b-2 text-primary"
+                :class="
+                  $navigator.route.path == tab.path
+                    ? 'text-accent'
+                    : 'text-primary'
+                "
+                :fontSize="$navigator.route.path == tab.path ? 26 : 22"
+                textAlignment="center"
+                verticalAlignment="center"
+                :text="tab.icon | fonticon"
+              />
+              <Label
+                :class="
+                  $navigator.route.path == tab.path
+                    ? 'text-accent'
+                    : 'text-primary'
+                "
+                textAlignment="center"
+                verticalAlignment="center"
+                :fontSize="$navigator.route.path == tab.path ? 14 : 12"
+                :textWrap="true"
+                :text="tab.title"
+              />
+            </StackLayout>
+          </Ripple>
         </GridLayout>
-      </GridLayout>
-    </RadSideDrawer>
+      </StackLayout>
+    </GridLayout>
   </page>
 </template>
 
@@ -35,10 +52,39 @@
 export default {
   data() {
     return {
-      msg: "Hello World!"
+      mainTabs: [
+        {
+          title: "Home",
+          path: "/home",
+          icon: "mdi-home-outline"
+        },
+        {
+          title: "Events",
+          path: "/events",
+          icon: "mdi-human-handsup"
+        },
+        {
+          title: "Brands",
+          path: "/brands",
+          icon: "mdi-sticker-emoji"
+        },
+        {
+          title: "Profile",
+          path: "/profile",
+          icon: "mdi-account-circle-outline"
+        }
+      ]
     };
   },
+  mounted() {
+    console.log("Current route", this.$navigator.route.path);
+  },
   methods: {
+    pageLoaded() {
+      setTimeout(() => {
+        this.$forceUpdate();
+      }, 1000);
+    },
     defaultRoute() {
       return "/home";
     }
@@ -48,23 +94,12 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/variables";
-.title {
-  text-align: left;
-  padding-left: 16;
-}
-
-.message {
-  vertical-align: center;
-  text-align: center;
-  font-size: 20;
-  color: #333333;
-}
 
 .drawer-header {
   padding: 50 16 16 16;
   margin-bottom: 16;
-  background-color: $primary;
-  color: $secondary;
+  background-color: $primaryDark;
+  color: $primary;
   font-size: 24;
 }
 

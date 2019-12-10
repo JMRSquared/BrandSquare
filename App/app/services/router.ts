@@ -1,5 +1,8 @@
 import Home from "../components/main/Home.vue";
 import Login from "../components/main/Login.vue";
+import Events from "../components/main/Events.vue";
+import Brands from "../components/main/Brands.vue";
+import Profile from "../components/main/Profile.vue";
 
 var router = {
     routes: {
@@ -7,22 +10,24 @@ var router = {
          * Main Routes
          */
         "/home": {
-            name: "home",
             path: "/home",
-            component: Home,
-            meta: {
-                title: "Home",
-                authLevel: 0
-            }
+            component: Home
         },
         "/login": {
-            name: "login",
             path: "/login",
-            component: Login,
-            meta: {
-                title: "Login",
-                authLevel: 0
-            }
+            component: Login
+        },
+        "/events": {
+            path: "/events",
+            component: Events
+        },
+        "/brands": {
+            path: "/brands",
+            component: Brands
+        },
+        "/profile": {
+            path: "/profile",
+            component: Profile
         }
     }
 };
