@@ -8,6 +8,7 @@ import store from './store'
 import moment from 'moment'
 import { TNSFontIcon, fonticon } from "nativescript-fonticon";
 import TextFieldPlugin from "nativescript-material-textfield/vue";
+import firebase from './services/firebase';
 
 // Prints Vue logs when --env.production is *NOT* set while building
 Vue.config.silent = (TNS_ENV === 'production')
@@ -48,6 +49,7 @@ Vue.use(TextFieldPlugin);
 Vue.use(Navigator, {
   routes: router.routes
 });
+
 
 var application = require("application");
 Vue.mixin({

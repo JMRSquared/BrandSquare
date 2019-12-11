@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "61132090148",
+    "firebase_url": "https://brandsquare-b268c.firebaseio.com",
+    "project_id": "brandsquare-b268c",
+    "storage_bucket": "brandsquare-b268c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61132090148:android:bae41d6b77dee65024e1b1",
+        "android_client_info": {
+          "package_name": "com.jmrsquared.brandsquare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61132090148-u9edtdn8u8bjo1ecsugtu5c4s19039vl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhdWOpFEO7hLo4AUWJWR5NespcCe6g_og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61132090148-u9edtdn8u8bjo1ecsugtu5c4s19039vl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

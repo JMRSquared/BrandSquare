@@ -14,6 +14,10 @@
       "version": "6.2.0"
     }
   },
+  "scripts": {
+    "start": "tns debug android --hmr --bundle --key-store-path file.keystore --key-store-password mulavhelesi --key-store-alias alias_name --key-store-alias-password mulavhelesi",
+    "deploy": "tns run android --bundle --release --env.production --key-store-path file.keystore --key-store-password mulavhelesi --key-store-alias alias_name --key-store-alias-password mulavhelesi"
+  },
   "dependencies": {
     "@nstudio/nativescript-cardview": "^1.0.0",
     "@nstudio/nativescript-floatingactionbutton": "^1.1.0",
@@ -21,6 +25,7 @@
     "moment": "^2.24.0",
     "nativescript-fonticon": "^2.0.0",
     "nativescript-material-textfield": "^2.5.4",
+    "nativescript-plugin-firebase": "^10.3.1",
     "nativescript-ripple": "^2.2.1",
     "nativescript-theme-core": "^1.0.6",
     "nativescript-ui-sidedrawer": "^7.0.0",
