@@ -34,7 +34,7 @@
               v-for="(socialNetwork, i) in socialNetworks"
               :key="i"
             >
-              <Ripple @tap="navigate('/home')">
+              <Ripple @tap="login(socialNetwork.link)">
                 <GridLayout class="p-15" columns="auto,*">
                   <Label
                     class="mdi text-white"
@@ -61,33 +61,39 @@
   </page>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data() {
     return {
       socialNetworks: [
         {
           name: "Google",
+          link: "google",
           icon: "mdi-google"
         },
         {
           name: "Twitter",
+          link: "twitter",
           icon: "mdi-twitter"
         },
         {
           name: "Facebook",
+          link: "facebook",
           icon: "mdi-facebook"
         },
         {
           name: "Instagram",
+          link: "instagram",
           icon: "mdi-instagram"
         },
         {
           name: "LinkedIn",
+          link: "linkedin",
           icon: "mdi-linkedin"
         },
         {
           name: "Mobile OTP",
+          link: "numbers",
           icon: "mdi-phone"
         }
       ]
@@ -98,6 +104,30 @@ export default {
       setTimeout(() => {
         this.$forceUpdate();
       }, 1000);
+    },
+    async login(socialNetwork: string) {
+      try {
+        switch (socialNetwork) {
+          case "google":
+            const googleUser = await this.$firebase.signInViaGoogle();
+            console.log("Google signin results", googleUser);
+            if (this.$store.state.isLoggedIn) {
+              this.navigate("/home", null, { clearHistory: true });
+            }
+            break;
+          case "twitter":
+            const twitterUser = await this.$firebase.signInViaTwitter();
+            console.log("Twitter signin results", twitterUser);
+            break;
+          case "facebok":
+            console.log("About to facebook");
+            const facebookUser = await this.$firebase.signInViaFacebook();
+            console.log("Facebook signin results", facebookUser);
+            break;
+        }
+      } catch (err) {
+        console.log("Cant login", err);
+      }
     }
   }
 };

@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "start": "tns debug android --hmr --bundle --key-store-path file.keystore --key-store-password mulavhelesi --key-store-alias alias_name --key-store-alias-password mulavhelesi",
+    "start": "tns debug android --hmr --bundle",
     "deploy": "tns run android --bundle --release --env.production --key-store-path file.keystore --key-store-password mulavhelesi --key-store-alias alias_name --key-store-alias-password mulavhelesi"
   },
   "dependencies": {
