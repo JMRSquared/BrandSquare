@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">BrandSquare</string>
     <string name="title_activity_kimera">BrandSquare</string>
+    <string name="facebook_app_id">2606774052740084</string>
 </resources>

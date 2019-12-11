@@ -34,7 +34,7 @@
               v-for="(socialNetwork, i) in socialNetworks"
               :key="i"
             >
-              <Ripple>
+              <Ripple @tap="navigate('/home')">
                 <GridLayout class="p-15" columns="auto,*">
                   <Label
                     class="mdi text-white"
@@ -45,7 +45,8 @@
                   ></Label>
                   <Label
                     col="1"
-                    class="text-primary p-x-10"
+                    :opacity="0.5"
+                    class="text-white p-x-10"
                     :fontSize="16"
                     verticalAlignment="center"
                     :text="socialNetwork.name"

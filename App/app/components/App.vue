@@ -79,6 +79,7 @@ export default {
   },
   mounted() {
     console.log("Current route", this.$navigator.route.path);
+    this.isLoggedIn = this.$navigator.route.path != "/login";
   },
   methods: {
     pageLoaded() {
