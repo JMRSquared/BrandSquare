@@ -62,6 +62,7 @@
 </template>
 
 <script lang="ts">
+const dialogs = require("tns-core-modules/ui/dialogs");
 export default {
   data() {
     return {
@@ -119,10 +120,28 @@ export default {
             const twitterUser = await this.$firebase.signInViaTwitter();
             console.log("Twitter signin results", twitterUser);
             break;
-          case "facebok":
-            console.log("About to facebook");
+          case "facebook":
             const facebookUser = await this.$firebase.signInViaFacebook();
             console.log("Facebook signin results", facebookUser);
+            break;
+          case "numbers":
+            const options = {
+              title: "Enter your contact numbers",
+              okButtonText: "Confirm",
+              inputType: dialogs.inputType.number
+            };
+            prompt(options).then(async result => {
+              if (result.result) {
+                const numbers =
+                  result.text && result.text.toString()[0] == "0"
+                    ? `+27${result.text.toString().substr(1)}`
+                    : result.text;
+
+                const contactUser = await this.$firebase.signInViaPhonenumber(
+                  numbers
+                );
+              }
+            });
             break;
         }
       } catch (err) {
