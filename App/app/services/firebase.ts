@@ -1,4 +1,5 @@
 import store from './store';
+import { firestore } from "nativescript-plugin-firebase";
 
 const firebase = require("nativescript-plugin-firebase");
 
@@ -112,5 +113,33 @@ export default class Firebase {
                 }
             );
         })
+    }
+
+    getPosts(brandIds: string[]): Promise<Post[]> {
+        return new Promise(async (resolve, reject) => {
+            firestore
+                .collection("Posts")
+                .where("brandId", 'in', brandIds)
+                .get()
+                .then(async result => {
+                    if (!result && result.docs) {
+                        return reject('No topics wore found');
+                    }
+                    const allDocs: Post[] = new Array();
+                    for (const v of result.docs) {
+                        const data = v.data();
+                        allDocs.push({
+                            ...data,
+                            brand: data && data.brand ? (await data.brand.get()).data() : null,
+                            id: v.id
+                        })
+                    }
+                    return resolve(allDocs);
+
+                })
+                .catch(err => {
+                    return reject('Unable to retrieve topics at this moment');
+                });
+        });
     }
 }

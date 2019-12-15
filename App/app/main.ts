@@ -58,7 +58,8 @@ Vue.mixin({
     return {
       isLoading: false,
       currentPage: 0,
-      previousPage: null
+      previousPage: null,
+      isLoggedIn: false
     };
   },
   methods: {

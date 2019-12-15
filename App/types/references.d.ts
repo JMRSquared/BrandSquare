@@ -9,5 +9,6 @@ declare module "vue/types/vue" {
         $navigator: any;
         $firebase: Firebase;
         navigate: any;
+        isLoggedIn: boolean;
     }
 }

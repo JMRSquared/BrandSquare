@@ -1,7 +1,7 @@
 <template>
   <page @loaded="pageLoaded" class="secondary" :actionBarHidden="true">
-    <GridLayout rows="*,*" columns="*">
-      <StackLayout class="secondary p-t-30">
+    <GridLayout rows="auto,*" columns="*">
+      <StackLayout class="m-y-30 secondary p-t-30">
         <Label
           class="text-white"
           :opacity="0.8"
@@ -56,6 +56,18 @@
             </CardView>
           </WrapLayout>
         </ScrollView>
+        <Ripple @tap="login('skipLogin')" width="100%">
+          <Label
+            class="text-white p-y-5"
+            :opacity="0.5"
+            :fontSize="14"
+            :textWrap="true"
+            textAlignment="center"
+            verticalAlignment="bottom"
+            fontWeight="underline"
+            text="Skip login"
+          ></Label>
+        </Ripple>
       </StackLayout>
     </GridLayout>
   </page>
@@ -130,7 +142,7 @@ export default {
               okButtonText: "Confirm",
               inputType: dialogs.inputType.number
             };
-            prompt(options).then(async result => {
+            dialogs.prompt(options).then(async result => {
               if (result.result) {
                 const numbers =
                   result.text && result.text.toString()[0] == "0"
@@ -142,6 +154,9 @@ export default {
                 );
               }
             });
+            break;
+          case "skipLogin":
+            this.navigate("/home", null, { clearHistory: true });
             break;
         }
       } catch (err) {

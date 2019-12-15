@@ -15,6 +15,11 @@
       "materialdesignicons";
 }
 
+TextField {
+  border-width: 0 0 0.2 0;
+  border-bottom-color: $primary;
+}
+
 .primary {
   background-color:$primary;
 }
@@ -28,6 +33,11 @@
 .text-secondary {
   color:$secondary;
 }
+.border-secondary-small{
+  padding:4;
+  border-width: 2;
+  border-color:$secondary;
+ }
 
 .accent{
   background-color: $accent;

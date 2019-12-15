@@ -72,18 +72,42 @@ export default {
           ]
         },
         { title: "Latest", selected: false, posts: [] },
-        { title: "Followers", selected: false, posts: [] }
+        { title: "Following", selected: false, posts: [] }
       ]
     };
   },
   components: {
     BCardOverlay
   },
+  mounted() {
+    this.loadPosts(["ygZN0olRLLRnmhoBLlI3"]);
+  },
   methods: {
     selectedFilter(index: number): void {
       this.filters.forEach((filter, i) => {
         i == index ? (filter.selected = true) : (filter.selected = false);
       });
+    },
+    loadPosts(brandIds: string[]) {
+      this.$firebase
+        .getPosts(brandIds)
+        .then(posts => {
+          if (posts) {
+            this.filters.forEach(v => {
+              v.posts = [];
+            });
+            posts.forEach(post => {
+              if (post.like > 10 && post.views > 50) {
+                this.filters.find(v => v.title == "Popular").posts.push(post);
+              } else if (this.getMoment().diff(post.createdAt, "hours") < 24) {
+                this.filters.find(v => v.title == "Latest").posts.push(post);
+              } else {
+                this.filters.find(v => v.title == "Following").posts.push(post);
+              }
+            });
+          }
+        })
+        .catch(err => {});
     }
   }
 };
