@@ -2,7 +2,7 @@
   <CardView margin="5" elevation="10">
     <GridLayout rows="auto,auto">
       <Image :src="post.img" width="100%" stretch="aspectFill" height="250" />
-      <StackLayout verticalAlignment="bottom">
+      <StackLayout class="fade" verticalAlignment="bottom">
         <GridLayout class="m-10" rows="auto" columns="auto,*">
           <Image
             :src="post.brand.logo"

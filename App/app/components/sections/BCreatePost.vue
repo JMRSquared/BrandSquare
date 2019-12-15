@@ -1,97 +1,40 @@
 <template>
-  <CardView margin="5" elevation="10">
-    <GridLayout rows="auto,auto">
-      <Image :src="post.img" width="100%" stretch="aspectFill" height="250" />
-      <StackLayout verticalAlignment="bottom">
-        <GridLayout class="m-10" rows="auto" columns="auto,*">
-          <Image
-            :src="post.brand.logo"
-            borderRadius="100"
-            stretch="aspectFill"
-            width="60"
-            height="60"
-            :class="post.brand.hasStory ? 'border-accent-small' : ''"
-          />
-          <StackLayout verticalAlignment="center" col="1" class="m-x-5">
-            <Label
-              class="text-white p-t-5 font-weight-bold"
-              :fontSize="16"
-              :text="post.brand.name"
-            ></Label>
-            <Label
-              :opacity="0.5"
-              class="text-white font-weight-italic"
-              :fontSize="14"
-              :text="getMoment(post.date).fromNow()"
-            ></Label>
-          </StackLayout>
-        </GridLayout>
-      </StackLayout>
-      <StackLayout row="1" class="primary p-y-10 p-x-10">
-        <ScrollView v-if="post.tags" orientation="horizontal">
-          <StackLayout orientation="horizontal">
-            <Label
-              v-for="(tag, i) in post.tags"
-              :key="i"
-              :fontSize="16"
-              class="text-accentDark p-r-10 p-y-10"
-              :text="`#${tag}`"
-            ></Label>
-          </StackLayout>
-        </ScrollView>
-        <Label
-          class="text-white"
-          :fontSize="16"
-          :textWrap="true"
-          :text="post.message"
-        />
-        <GridLayout class="m-t-25" columns="auto,auto,*,auto">
-          <StackLayout class="m-r-10" orientation="horizontal">
-            <Label
-              class="mdi m-x-5 text-white"
-              :fontSize="20"
-              :text="'mdi-thumb-up' | fonticon"
-            />
-            <Label
-              class="text-white"
-              verticalAlignment="center"
-              :fontSize="16"
-              :textWrap="true"
-              :text="post.likes"
-            />
-          </StackLayout>
-          <StackLayout col="1" class="m-r-10" orientation="horizontal">
-            <Label
-              class="mdi m-x-5 text-white"
-              :fontSize="20"
-              :text="'mdi-thumb-down' | fonticon"
-            />
-            <Label
-              class="text-white"
-              verticalAlignment="center"
-              :fontSize="16"
-              :textWrap="true"
-              :text="post.dislikes"
-            />
-          </StackLayout>
-          <StackLayout col="3" class="m-r-10" orientation="horizontal">
-            <Label
-              class="mdi m-x-5 text-white"
-              :fontSize="20"
-              :text="'mdi-share' | fonticon"
-            />
-            <Label
-              class="text-white"
-              verticalAlignment="center"
-              :fontSize="16"
-              :textWrap="true"
-              :text="post.shares"
-            />
-          </StackLayout>
-        </GridLayout>
-      </StackLayout>
-    </GridLayout>
-  </CardView>
+  <GridLayout class="primary" rows="auto,*" columns="auto,*,auto">
+    <Ripple verticalAlignment="center">
+      <Image
+        src="https://avatars0.githubusercontent.com/u/40456418?s=200&v=4"
+        borderRadius="100"
+        stretch="aspectFill"
+        width="40"
+        height="40"
+        verticalAlignment="center"
+        class="p-5 m-x-10"
+      />
+    </Ripple>
+    <Label
+      col="1"
+      verticalAlignment="center"
+      class="m-5 p-y-5 text-white"
+      text="Creating a new post"
+      :fontSize="20"
+    ></Label>
+    <Ripple verticalAlignment="center" col="2" @tap="$emit('toggleCreatePost')">
+      <Label
+        verticalAlignment="center"
+        class="mdi m-10 text-accent"
+        :text="'mdi-close' | fonticon"
+        :fontSize="28"
+      ></Label>
+    </Ripple>
+    <CardView row="1" colSpan="3" margin="5" elevation="10">
+      <GridLayout rows="*">
+        <label
+          verticalAlignment="center"
+          text="This is the bottom sheet"
+        ></label>
+      </GridLayout>
+    </CardView>
+  </GridLayout>
 </template>
 
 <script lang="ts">

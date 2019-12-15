@@ -1,33 +1,53 @@
 <template>
-  <GridLayout rows="auto,*">
-    <ScrollView orientation="horizontal">
+  <GridLayout marginTop="-90" rows="auto,*">
+    <ScrollView v-show="mainScrollY >= 100" row="0" orientation="horizontal">
       <StackLayout orientation="horizontal">
         <Label
           :text="filter.title"
           v-for="(filter, i) in filters"
           @tap="selectedFilter(i)"
           :fontSize="30"
-          class="m-y-15 m-x-20 p-y-10 font-weight-bold"
+          class="m-b-5 m-x-20 p-b-10 font-weight-bold"
           :class="filter.selected ? 'text-white' : 'text-secondary'"
           :key="i"
         ></Label>
       </StackLayout>
     </ScrollView>
-
-    <ScrollView row="1">
-      <StackLayout v-show="filters.some(v => v.selected)">
-        <b-card-overlay
-          v-for="(post, i) in filters.find(v => v.selected).posts"
-          :post="post"
-          :key="i"
-        />
-      </StackLayout>
+    <ScrollView
+      :marginTop="mainScrollY < 100 ? 90 : 0"
+      @scroll="onScroll"
+      row="1"
+    >
+      <GridLayout rows="*">
+        <StackLayout v-show="filters.some(v => v.selected)">
+          <ScrollView orientation="horizontal">
+            <StackLayout orientation="horizontal">
+              <Label
+                :text="filter.title"
+                v-for="(filter, i) in filters"
+                @tap="selectedFilter(i)"
+                :fontSize="30"
+                class="m-y-5 m-x-20 p-y-10 font-weight-bold"
+                :class="filter.selected ? 'text-white' : 'text-secondary'"
+                :key="i"
+              ></Label>
+            </StackLayout>
+          </ScrollView>
+          <b-card-overlay
+            v-for="(post, i) in filters.find(v => v.selected).posts"
+            :post="post"
+            :key="i"
+          />
+        </StackLayout>
+      </GridLayout>
     </ScrollView>
   </GridLayout>
 </template>
 
 <script lang="ts">
 import BCardOverlay from "./BCardOverlay.vue";
+import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view";
+
 export default {
   data() {
     return {
@@ -68,12 +88,30 @@ export default {
               message:
                 "We strive for African excellence by creating a social movement that promotes a culture of passion, education and empowerment.",
               tags: ["drink", "energy_drink", "dj_sbu"]
+            },
+            {
+              img:
+                "https://c.static-nike.com/a/images/c_limit,w_318,f_auto/t_product_v1/z3jmd3r71ghksc5xgvnp/air-max-720-shoe-Vc2TZM.jpg",
+              brand: {
+                name: "Nike",
+                logo:
+                  "https://i.ebayimg.com/images/g/mCMAAOSwQ-JalJ-V/s-l300.jpg",
+                hasStory: true
+              },
+              date: new Date(),
+              likes: 13,
+              comments: 2,
+              shares: 21,
+              message:
+                "The Swoosh is the logo of American athletic shoe and apparel designer and retailer Nike. Today, it has become one of the most recognizable brand logos in the ",
+              tags: ["shoe", "sports", "takkie"]
             }
           ]
         },
         { title: "Latest", selected: false, posts: [] },
         { title: "Following", selected: false, posts: [] }
-      ]
+      ],
+      mainScrollY: 0
     };
   },
   components: {
@@ -83,6 +121,16 @@ export default {
     this.loadPosts(["ygZN0olRLLRnmhoBLlI3"]);
   },
   methods: {
+    onScroll(args: ScrollEventData) {
+      this.mainScrollY = args.scrollY;
+      if (args.scrollY > 100) {
+        //  this.$refs.filter.nativeView.translateY = 100;
+      } else {
+        //  this.$refs.filter.nativeView.translateY = -1 * args.scrollY + 100;
+      }
+      console.log("mainScrollY", this.mainScrollY);
+      this.$emit("scroll", args);
+    },
     selectedFilter(index: number): void {
       this.filters.forEach((filter, i) => {
         i == index ? (filter.selected = true) : (filter.selected = false);
@@ -93,9 +141,10 @@ export default {
         .getPosts(brandIds)
         .then(posts => {
           if (posts) {
-            this.filters.forEach(v => {
+            /*this.filters.forEach(v => {
               v.posts = [];
-            });
+            }); 
+            */
             posts.forEach(post => {
               if (post.like > 10 && post.views > 50) {
                 this.filters.find(v => v.title == "Popular").posts.push(post);
