@@ -3,15 +3,20 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     loggedInSocialNetworks: [],
-    isLoggedIn: false
+    isLoggedIn: false,
+    allPosts: new Array<Post>()
   },
   mutations: {
-
+    updatePost(state, doc) {
+      state.allPosts = doc;
+    }
   },
   actions: {
 
   }
 });
+Vue.prototype.$store = store;
+export default store;

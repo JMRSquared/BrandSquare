@@ -1,10 +1,14 @@
 <template>
   <page @loaded="pageLoaded" :actionBarHidden="true">
     <GridLayout columns="*" rows="*,auto">
-      <Navigator row="0" :defaultRoute="defaultRoute()" />
+      <Navigator
+        @hideBottomNav="hideBottomNav"
+        row="0"
+        :defaultRoute="defaultRoute()"
+      />
       <StackLayout row="1">
         <GridLayout
-          v-if="$navigator.route"
+          v-if="$navigator.route && showBottomNav"
           class="secondary"
           rows="auto"
           columns="*,*,*,*"
@@ -52,6 +56,7 @@
 export default {
   data() {
     return {
+      showBottomNav: true,
       mainTabs: [
         {
           title: "Home",
@@ -85,6 +90,10 @@ export default {
     },
     defaultRoute() {
       return "/login";
+    },
+    hideBottomNav(args) {
+      console.log("Called", args);
+      this.showBottomNav = !args;
     }
   }
 };

@@ -1,5 +1,6 @@
 import store from './store';
 import { firestore } from "nativescript-plugin-firebase";
+import moment from 'moment';
 
 const firebase = require("nativescript-plugin-firebase");
 
@@ -115,31 +116,47 @@ export default class Firebase {
         })
     }
 
-    getPosts(brandIds: string[]): Promise<Post[]> {
+    getPosts(brandIds: string[]): Promise<boolean> {
         return new Promise(async (resolve, reject) => {
-            firestore
+            const query = firestore
                 .collection("Posts")
                 .where("brandId", 'in', brandIds)
-                .get()
+
+            query.onSnapshot(snapshot => {
+                this._updatePosts(snapshot.docs);
+            });
+
+            query.get()
                 .then(async result => {
                     if (!result && result.docs) {
                         return reject('No topics wore found');
                     }
-                    const allDocs: Post[] = new Array();
-                    for (const v of result.docs) {
-                        const data = v.data();
-                        allDocs.push({
-                            ...data,
-                            brand: data && data.brand ? (await data.brand.get()).data() : null,
-                            id: v.id
-                        })
-                    }
-                    return resolve(allDocs);
-
+                    await this._updatePosts(result.docs)
+                    return resolve(true);
                 })
                 .catch(err => {
                     return reject('Unable to retrieve topics at this moment');
                 });
         });
+    }
+
+    async _updatePosts(docs: firestore.QueryDocumentSnapshot[]): Promise<void> {
+        const allDocs = docs.map(async doc => {
+            const data = doc.data();
+            let category = "Following";
+            if (data.like > 10 && data.views > 50) {
+                category = "Popular";
+            } else if (moment().diff(data.createdAt, "hours") < 24) {
+                category = "Latest";
+            }
+            return {
+                ...data,
+                category,
+                brand: data && data.brand ? (await data.brand.get()).data() : null,
+                id: doc.id
+            }
+        })
+        const finalDocs = await Promise.all(allDocs);
+        store.commit("updatePost", finalDocs);
     }
 }

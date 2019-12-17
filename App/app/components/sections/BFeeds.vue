@@ -34,7 +34,7 @@
             </StackLayout>
           </ScrollView>
           <b-card-overlay
-            v-for="(post, i) in filters.find(v => v.selected).posts"
+            v-for="(post, i) in allFilteredPosts"
             :post="post"
             :key="i"
           />
@@ -47,6 +47,9 @@
 <script lang="ts">
 import BCardOverlay from "./BCardOverlay.vue";
 import { ScrollEventData, ScrollView } from "tns-core-modules/ui/scroll-view";
+
+const firebase = require("nativescript-plugin-firebase");
+import { firestore } from "nativescript-plugin-firebase";
 
 export default {
   data() {
@@ -117,6 +120,13 @@ export default {
   components: {
     BCardOverlay
   },
+  computed: {
+    allFilteredPosts() {
+      return this.$store.state.allPosts.filter(
+        v => v.category == this.filters.find(v => v.selected).title
+      );
+    }
+  },
   mounted() {
     this.loadPosts(["ygZN0olRLLRnmhoBLlI3"]);
   },
@@ -139,23 +149,7 @@ export default {
     loadPosts(brandIds: string[]) {
       this.$firebase
         .getPosts(brandIds)
-        .then(posts => {
-          if (posts) {
-            /*this.filters.forEach(v => {
-              v.posts = [];
-            }); 
-            */
-            posts.forEach(post => {
-              if (post.like > 10 && post.views > 50) {
-                this.filters.find(v => v.title == "Popular").posts.push(post);
-              } else if (this.getMoment().diff(post.createdAt, "hours") < 24) {
-                this.filters.find(v => v.title == "Latest").posts.push(post);
-              } else {
-                this.filters.find(v => v.title == "Following").posts.push(post);
-              }
-            });
-          }
-        })
+        .then(posts => {})
         .catch(err => {});
     }
   }
