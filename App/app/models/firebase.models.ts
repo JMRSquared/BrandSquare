@@ -1,7 +1,7 @@
 interface Post {
     id: string,
     brandId?: string | null,
-    brand?: Brand | null,
+    brand?: Brand | null | any,
     createdAt?: Date,
     dislikes?: number,
     img?: string,

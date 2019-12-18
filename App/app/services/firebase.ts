@@ -1,8 +1,8 @@
 import store from './store';
-import { firestore } from "nativescript-plugin-firebase";
+import firebase, { firestore } from "nativescript-plugin-firebase";
 import moment from 'moment';
-
-const firebase = require("nativescript-plugin-firebase");
+const fs = require("tns-core-modules/file-system");
+const imageSourceModule = require("tns-core-modules/image-source");
 
 export default class Firebase {
     constructor() {
@@ -81,9 +81,9 @@ export default class Firebase {
     signInViaTwitter() {
         return new Promise((resolve, reject) => {
             firebase.login({
-                type: "TWITTER",
+                type: firebase.LoginType.FACEBOOK,
                 // Optional
-                twitterOptions: {
+                facebookOptions: {
                     // defaults to ['public_profile', 'email']
                     scopes: ['public_profile', 'email', 'instagram_basic', 'user_gender', 'user_age_range', 'user_link'] // note: this property was renamed from "scope" in 8.4.0
                 }
@@ -116,6 +116,31 @@ export default class Firebase {
         })
     }
 
+    async setPost(post: Post, img: string) {
+        const newPost: Post = {
+            ...post,
+            brand: firestore.docRef('/Brands/' + post.brandId),
+            createdAt: new Date(),
+            dislikes: 0,
+            img: await this._uploadFileToStorage(moment().format(`D-MM-YYYY hh:mm:ss`), img),
+            likes: 0,
+            shares: 0,
+            updatedAt: new Date(),
+            views: 0
+        };
+        firestore
+            .collection("Posts")
+            .add({
+                ...newPost
+            })
+            .then(item => {
+
+
+            }).then(uploadedFile => {
+
+            })
+    }
+
     getPosts(brandIds: string[]): Promise<boolean> {
         return new Promise(async (resolve, reject) => {
             const query = firestore
@@ -137,6 +162,35 @@ export default class Firebase {
                 .catch(err => {
                     return reject('Unable to retrieve topics at this moment');
                 });
+        });
+    }
+
+    async _uploadFileToStorage(name: string, img: string): Promise<string | null> {
+        return new Promise(async (resolve, reject) => {
+            if (!img) {
+                return resolve(null);
+            }
+            try {
+                const image = imageSourceModule.fromBase64(img.replace('data:image/jpeg;base64,', ''))
+                const path = fs.path.join(fs.knownFolders.documents().path, name + '.jpg');
+                image.saveToFile(path, "jpg");
+                const savedImage = await firebase
+                    .storage
+                    .uploadFile({
+                        remoteFullPath: 'posts/' + name + '.jpg',
+                        localFile: fs.File.fromPath(path),
+                        onProgress: (data) => {
+                            console.log("Uploading....", data.percentageCompleted)
+                        }
+                    })
+                const imageUrl = await firebase.storage.getDownloadUrl({
+                    remoteFullPath: 'posts/' + savedImage.name
+                });
+                return resolve(imageUrl);
+            } catch (err) {
+                console.log("Error while uploading....", err);
+                return resolve(null);
+            }
         });
     }
 
