@@ -2,7 +2,7 @@
   <CardView margin="5" elevation="10">
     <GridLayout rows="auto,auto">
       <Image :src="post.img" width="100%" stretch="aspectFill" height="250" />
-      <StackLayout verticalAlignment="bottom">
+      <StackLayout class="fade" verticalAlignment="bottom">
         <GridLayout class="m-10" rows="auto" columns="auto,*">
           <Image
             :src="post.brand.logo"
@@ -50,7 +50,7 @@
             <Label
               class="mdi m-x-5 text-white"
               :fontSize="20"
-              :text="'mdi-heart' | fonticon"
+              :text="'mdi-thumb-up' | fonticon"
             />
             <Label
               class="text-white"
@@ -64,14 +64,14 @@
             <Label
               class="mdi m-x-5 text-white"
               :fontSize="20"
-              :text="'mdi-chat' | fonticon"
+              :text="'mdi-thumb-down' | fonticon"
             />
             <Label
               class="text-white"
               verticalAlignment="center"
               :fontSize="16"
               :textWrap="true"
-              :text="post.comments"
+              :text="post.dislikes"
             />
           </StackLayout>
           <StackLayout col="3" class="m-r-10" orientation="horizontal">

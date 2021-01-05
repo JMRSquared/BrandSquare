@@ -4,11 +4,11 @@ import router from "./services/router";
 import Navigator from "nativescript-vue-navigator";
 
 
-import store from './store'
+import store from './services/store'
 import moment from 'moment'
 import { TNSFontIcon, fonticon } from "nativescript-fonticon";
 import TextFieldPlugin from "nativescript-material-textfield/vue";
-import firebase from './services/firebase';
+import Firebase from './services/firebase';
 
 // Prints Vue logs when --env.production is *NOT* set while building
 Vue.config.silent = (TNS_ENV === 'production')
@@ -44,6 +44,7 @@ Vue.filter("fonticon", fonticon);
 
 Vue.prototype.$router = router;
 Vue.prototype.$route = null;
+Vue.prototype.$firebase = new Firebase();
 
 Vue.use(TextFieldPlugin);
 Vue.use(Navigator, {
@@ -57,7 +58,8 @@ Vue.mixin({
     return {
       isLoading: false,
       currentPage: 0,
-      previousPage: null
+      previousPage: null,
+      isLoggedIn: false
     };
   },
   methods: {

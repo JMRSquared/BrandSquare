@@ -2,10 +2,18 @@
   <page @loaded="pageLoaded" :actionBarHidden="true">
     <GridLayout columns="*" rows="*,auto">
       <Navigator row="0" :defaultRoute="defaultRoute()" />
-      <StackLayout row="1">
+      <StackLayout
+        v-if="
+          $navigator &&
+            $navigator.route &&
+            $navigator.route.meta.mustShowBottomNav
+        "
+        class="secondaryDark"
+        row="1"
+      >
         <GridLayout
-          v-if="$navigator.route && isLoggedIn"
-          class="secondary"
+          class="primary"
+          borderRadius="20%"
           rows="auto"
           columns="*,*,*,*"
         >
@@ -15,13 +23,19 @@
             @tap="navigate(tab.path)"
             :key="i"
           >
-            <StackLayout class="p-10">
+            <StackLayout
+              :class="{
+                secondaryDark: $navigator.route.path == tab.path
+              }"
+              borderRadius="20%"
+              class="p-10"
+            >
               <Label
-                class="mdi m-x-5 p-b-2 text-primary"
+                class="mdi m-x-5"
                 :class="
                   $navigator.route.path == tab.path
-                    ? 'text-accent'
-                    : 'text-primary'
+                    ? 'text-primary'
+                    : 'text-secondary'
                 "
                 :fontSize="$navigator.route.path == tab.path ? 26 : 22"
                 textAlignment="center"
@@ -31,12 +45,13 @@
               <Label
                 :class="
                   $navigator.route.path == tab.path
-                    ? 'text-accent'
-                    : 'text-primary'
+                    ? 'text-primary'
+                    : 'text-secondary'
                 "
+                class="p-t-3"
                 textAlignment="center"
                 verticalAlignment="center"
-                :fontSize="$navigator.route.path == tab.path ? 14 : 12"
+                :fontSize="$navigator.route.path == tab.path ? 9 : 12"
                 :textWrap="true"
                 :text="tab.title"
               />
@@ -52,7 +67,6 @@
 export default {
   data() {
     return {
-      isLoggedIn: false,
       mainTabs: [
         {
           title: "Home",
@@ -77,10 +91,7 @@ export default {
       ]
     };
   },
-  mounted() {
-    console.log("Current route", this.$navigator.route.path);
-    this.isLoggedIn = this.$navigator.route.path != "/login";
-  },
+  mounted() {},
   methods: {
     pageLoaded() {
       setTimeout(() => {
@@ -100,7 +111,7 @@ export default {
 .drawer-header {
   padding: 50 16 16 16;
   margin-bottom: 16;
-  background-color: $primaryDark;
+  background-color: $secondaryDark;
   color: $primary;
   font-size: 24;
 }

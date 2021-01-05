@@ -1,7 +1,7 @@
 <template>
   <page @loaded="pageLoaded" class="secondary" :actionBarHidden="true">
     <GridLayout rows="*,*" columns="*">
-      <StackLayout class="secondary p-t-30">
+      <StackLayout class="m-y-30 secondary p-t-30">
         <Label
           class="text-white"
           :opacity="0.8"
@@ -12,7 +12,7 @@
           text="Login"
         ></Label>
       </StackLayout>
-      <StackLayout row="1" class="primary top-radius-medium">
+      <StackLayout row="1" class="secondaryDark top-radius-medium">
         <StackLayout>
           <Label
             class="m-x-20 m-t-30 text-white"
@@ -34,7 +34,7 @@
               v-for="(socialNetwork, i) in socialNetworks"
               :key="i"
             >
-              <Ripple @tap="navigate('/home')">
+              <Ripple @tap="login(socialNetwork.link)">
                 <GridLayout class="p-15" columns="auto,*">
                   <Label
                     class="mdi text-white"
@@ -56,38 +56,57 @@
             </CardView>
           </WrapLayout>
         </ScrollView>
+        <Ripple @tap="login('skipLogin')" width="100%">
+          <Label
+            class="text-white p-y-5"
+            :opacity="0.5"
+            :fontSize="14"
+            :textWrap="true"
+            textAlignment="center"
+            verticalAlignment="bottom"
+            fontWeight="underline"
+            text="Skip login"
+          ></Label>
+        </Ripple>
       </StackLayout>
     </GridLayout>
   </page>
 </template>
 
-<script>
+<script lang="ts">
+const dialogs = require("tns-core-modules/ui/dialogs");
 export default {
   data() {
     return {
       socialNetworks: [
         {
           name: "Google",
+          link: "google",
           icon: "mdi-google"
         },
         {
           name: "Twitter",
+          link: "twitter",
           icon: "mdi-twitter"
         },
         {
           name: "Facebook",
+          link: "facebook",
           icon: "mdi-facebook"
         },
         {
           name: "Instagram",
+          link: "instagram",
           icon: "mdi-instagram"
         },
         {
           name: "LinkedIn",
+          link: "linkedin",
           icon: "mdi-linkedin"
         },
         {
           name: "Mobile OTP",
+          link: "numbers",
           icon: "mdi-phone"
         }
       ]
@@ -98,6 +117,51 @@ export default {
       setTimeout(() => {
         this.$forceUpdate();
       }, 1000);
+    },
+    async login(socialNetwork: string) {
+      try {
+        switch (socialNetwork) {
+          case "google":
+            const googleUser = await this.$firebase.signInViaGoogle();
+            console.log("Google signin results", googleUser);
+            if (this.$store.state.isLoggedIn) {
+              this.navigate("/home", null, { clearHistory: true });
+            }
+            break;
+          case "twitter":
+            const twitterUser = await this.$firebase.signInViaTwitter();
+            console.log("Twitter signin results", twitterUser);
+            break;
+          case "facebook":
+            const facebookUser = await this.$firebase.signInViaFacebook();
+            console.log("Facebook signin results", facebookUser);
+            break;
+          case "numbers":
+            const options = {
+              title: "Enter your contact numbers",
+              okButtonText: "Confirm",
+              inputType: dialogs.inputType.number
+            };
+            dialogs.prompt(options).then(async result => {
+              if (result.result) {
+                const numbers =
+                  result.text && result.text.toString()[0] == "0"
+                    ? `+27${result.text.toString().substr(1)}`
+                    : result.text;
+
+                const contactUser = await this.$firebase.signInViaPhonenumber(
+                  numbers
+                );
+              }
+            });
+            break;
+          case "skipLogin":
+            this.navigate("/home", null, { clearHistory: true });
+            break;
+        }
+      } catch (err) {
+        console.log("Cant login", err);
+      }
     }
   }
 };

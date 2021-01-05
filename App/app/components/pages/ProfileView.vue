@@ -74,21 +74,18 @@ export default {
     return {
       brands: [
         {
-          id: 0,
           name: "JMR",
           category: "Clothing",
           logo: "https://i.pravatar.cc/300"
         },
         {
-          id: 1,
-          name: "Bathu",
+          name: "JMR",
           category: "Clothing",
           logo: "https://i.pravatar.cc/400"
         },
         {
-          id: 2,
-          name: "MoFaya",
-          category: "Energy Drink",
+          name: "JMR",
+          category: "Clothing",
           logo: "https://i.pravatar.cc/305"
         }
       ]

@@ -1,5 +1,5 @@
 <template>
-  <page class="primaryDark" :actionBarHidden="true">
+  <page class="secondaryDark" :actionBarHidden="true">
     <GridLayout rows="*" columns="*">
       <Label
         verticalAlignment="center"

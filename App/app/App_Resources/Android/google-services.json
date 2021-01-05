@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "61132090148-r1q7fcnm3ptdg5n9rskkdccs3o5vr75b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jmrsquared.brandsquare",
+            "certificate_hash": "06661ddfddf04f68defd64ddf8e798ca24e3248a"
+          }
+        },
+        {
+          "client_id": "61132090148-erruv4g8cd7rv2r376b5pon1o44hlk4m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jmrsquared.brandsquare",
+            "certificate_hash": "9d809fe2b11b2519850ec5fa3bfe7dfeb0ea8514"
+          }
+        },
+        {
           "client_id": "61132090148-u9edtdn8u8bjo1ecsugtu5c4s19039vl.apps.googleusercontent.com",
           "client_type": 3
         }
