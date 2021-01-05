@@ -1,6 +1,6 @@
 <template>
   <page @loaded="pageLoaded" class="secondary" :actionBarHidden="true">
-    <GridLayout rows="auto,*" columns="*">
+    <GridLayout rows="*,*" columns="*">
       <StackLayout class="m-y-30 secondary p-t-30">
         <Label
           class="text-white"
@@ -12,7 +12,7 @@
           text="Login"
         ></Label>
       </StackLayout>
-      <StackLayout row="1" class="primary top-radius-medium">
+      <StackLayout row="1" class="secondaryDark top-radius-medium">
         <StackLayout>
           <Label
             class="m-x-20 m-t-30 text-white"

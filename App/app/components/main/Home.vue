@@ -1,16 +1,7 @@
 <template>
-  <page class="primaryDark" :actionBarHidden="true">
-    <GridLayout rows="auto,*" columns="auto,*">
-      <StackLayout class="primary radius-big m-x-5 m-y-20" row="0" col="0">
-        <Ripple @tap="toggleCreatePost">
-          <Label
-            class="mdi m-10 text-accent"
-            :text="'mdi-plus' | fonticon"
-            :fontSize="28"
-          ></Label>
-        </Ripple>
-      </StackLayout>
-      <StackLayout class="primary radius-big m-x-10 m-y-20" row="0" col="1">
+  <page class="secondaryDark" :actionBarHidden="true">
+    <GridLayout rows="auto,*" columns="*,auto">
+      <StackLayout class="secondary radius-big m-x-10 m-y-20" row="0" col="0">
         <GridLayout rows="auto" columns="auto,*">
           <Label
             class="mdi m-10 text-white"
@@ -20,10 +11,19 @@
           <TextField
             col="1"
             :v-model="txtSearch"
-            class="m-r-20"
+            class="m-r-20 no-border"
             hint="Search"
           />
         </GridLayout>
+      </StackLayout>
+      <StackLayout class="primary radius-big m-x-5 m-y-20" row="0" col="1">
+        <Ripple @tap="toggleCreatePost">
+          <Label
+            class="mdi m-10 text-secondary"
+            :text="'mdi-plus' | fonticon"
+            :fontSize="28"
+          ></Label>
+        </Ripple>
       </StackLayout>
       <StackLayout colSpan="2" class="m-x-10 m-y-5" row="1" col="0">
         <b-stories ref="stories"></b-stories>
@@ -66,7 +66,6 @@ export default {
     scrolling(args) {
       this.$refs.stories.nativeView.translateY = -1 * args.scrollY;
       this.scrollY = args.scrollY;
-      console.log("We got it....", args.scrollY);
     },
     toggleCreatePost() {
       this.isCreatingPost = !this.isCreatingPost;
@@ -90,4 +89,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/variables";
+
+.no-border {
+  border-bottom-width: 0px;
+  border-bottom-color: $secondary;
+}
 </style>

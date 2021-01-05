@@ -1,5 +1,9 @@
 <template>
-  <GridLayout class="primaryDark" rows="auto,*,auto" columns="auto,*,auto">
+  <GridLayout
+    class="secondaryDark p-t-5"
+    rows="auto,*,auto"
+    columns="auto,*,auto"
+  >
     <Ripple verticalAlignment="center">
       <Image
         src="https://avatars0.githubusercontent.com/u/40456418?s=200&v=4"
@@ -16,7 +20,7 @@
       verticalAlignment="center"
       class="m-5 p-y-5 text-white"
       text="Creating a new post"
-      :fontSize="20"
+      :fontSize="23"
     ></Label>
     <Ripple verticalAlignment="center" col="2" @tap="$emit('toggleCreatePost')">
       <Label

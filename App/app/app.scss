@@ -22,7 +22,7 @@ TextField {
 
 TextView {
   border-bottom-width: 0 0 0.1 0;
-  border-bottom-color: $primaryDark;
+  border-bottom-color: $secondaryDark;
 }
 
 .primary {
@@ -50,25 +50,18 @@ TextView {
 .text-accent{
   color: $accent;
 }
-.border-accent-small{
+.border-primary-small{
   padding:4;
   border-width: 2;
-  border-color:$accent;
+  border-color:$primary;
  }
 
 
-.primaryDark{
-  background-color: $primaryDark;
+.secondaryDark{
+  background-color: $secondaryDark;
 }
-.text-primaryDark{
-  color: $primaryDark;
-}
-
-.accentDark{
-  background-color: $accentDark;
-}
-.text-accentDark{
-  color: $accentDark;
+.text-secondaryDark{
+  color: $secondaryDark;
 }
 
 .text-white{
@@ -86,5 +79,9 @@ TextView {
   
 .fade{
   background:linear-gradient(to top,black,transparent);
+}
+
+.fade-inverse{
+  background:linear-gradient(to top,transparent,rgba(0,0,0,0.7),black);
 }
 
